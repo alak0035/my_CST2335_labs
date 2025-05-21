@@ -58,27 +58,22 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var _counter = 0.0;
-  var myFontSize = 30.0;
+  late TextEditingController _controller1;
+  late TextEditingController _controller2;
+  String password = "";
 
-  void setNewValue(double value) {
-    setState(() {
-      _counter = value;
-      myFontSize = value;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _controller1 = TextEditingController();
+    _controller2 = TextEditingController();
   }
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      if (_counter < 99.0) {
-        _counter++;
-      }
-    });
+  @override
+  void dispose() {
+    _controller1.dispose();
+    _controller2.dispose();
+    super.dispose();
   }
 
   @override
@@ -91,47 +86,39 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('You have pushed the button this many times:', style: TextStyle(fontSize: myFontSize)),
-            Text(
-              '$_counter',
-              style: TextStyle(fontSize: myFontSize),
+            TextField(
+              controller: _controller1,
+              decoration: InputDecoration(border: OutlineInputBorder(), labelText: "Login"),
+              obscureText:true
             ),
-            Slider(value: _counter, onChanged: setNewValue, max:100.0, min: 0.0)
+
+            TextField(
+                controller: _controller2,
+                decoration: InputDecoration(border: OutlineInputBorder(), labelText: "Password"),
+                obscureText:true
+            ),
+
+            ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    password = _controller2.text;
+                  });
+                },
+                child: Text("Login")),
+            Semantics(
+              label: "Question marks image",
+              child: Image.asset("images/question-mark.png", width: 300, height: 300),
+            )
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),// This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
