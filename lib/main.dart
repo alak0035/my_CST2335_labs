@@ -61,6 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
   late TextEditingController _controller1;
   late TextEditingController _controller2;
   String password = "";
+  var imageSource = "images/question-mark.png";
 
   @override
   void initState() {
@@ -109,12 +110,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   setState(() {
                     password = _controller2.text;
+                    if (password == "QWERTY123"){
+                      imageSource = "images/idea.png";
+                    }
+                    else {
+                      imageSource = "images/stop.png";
+                    }
                   });
                 },
                 child: Text("Login")),
+
             Semantics(
               label: "Question marks image",
-              child: Image.asset("images/question-mark.png", width: 300, height: 300),
+              child: Image.asset(imageSource, width: 300, height: 300),
             )
           ],
         ),
