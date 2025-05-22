@@ -94,36 +94,12 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            TextField(
-              controller: _controller1,
-              decoration: InputDecoration(border: OutlineInputBorder(), labelText: "Login"),
-              obscureText:true
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text("BROWSE CATEGORIES")
+                ]
             ),
-
-            TextField(
-                controller: _controller2,
-                decoration: InputDecoration(border: OutlineInputBorder(), labelText: "Password"),
-                obscureText:true
-            ),
-
-            ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    password = _controller2.text;
-                    if (password == "QWERTY123"){
-                      imageSource = "images/idea.png";
-                    }
-                    else {
-                      imageSource = "images/stop.png";
-                    }
-                  });
-                },
-                child: Text("Login")),
-
-            Semantics(
-              label: "Question marks image",
-              child: Image.asset(imageSource, width: 300, height: 300),
-            )
           ],
         ),
       ),// This trailing comma makes auto-formatting nicer for build methods.
