@@ -86,44 +86,179 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            TextField(
-              controller: _controller1,
-              decoration: InputDecoration(border: OutlineInputBorder(), labelText: "Login"),
-              obscureText:true
+            Text("BROWSE CATEGORIES"),
+            Text("Not sure exactly which recipe you're looking for? Do a search, or dive into our most popular categories."),
+
+            Text("BY MEAT"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Stack(
+                        alignment: AlignmentDirectional.center,
+                        children: <Widget>[
+                          CircleAvatar(
+                            backgroundImage: AssetImage("images/beef.jpg"),
+                            radius: 80,
+                          ),
+                          Text("BEEF", style: TextStyle(fontSize: 30.0),)
+                        ]
+                    ),
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Stack(
+                        alignment: AlignmentDirectional.center,
+                        children: <Widget>[
+                          CircleAvatar(
+                            backgroundImage: AssetImage("images/chicken.jpg"),
+                            radius: 80,
+                          ),
+                          Text("CHICKEN", style: TextStyle(fontSize: 30.0, color: Colors.white),)
+                        ]
+                    ),
+
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Stack(
+                        alignment: AlignmentDirectional.center,
+                        children: <Widget>[
+                          CircleAvatar(
+                            backgroundImage: AssetImage("images/pork.jpg"),
+                            radius: 80,
+                          ),
+                          Text("PORK", style: TextStyle(fontSize: 30.0),)
+                        ]
+                    ),
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Stack(
+                        alignment: AlignmentDirectional.center,
+                        children: <Widget>[
+                          CircleAvatar(
+                            backgroundImage: AssetImage("images/seafood.jpg"),
+                            radius: 80,
+                          ),
+                          Text("SEAFOOD", style: TextStyle(fontSize: 30.0),)
+                        ]
+                    ),
+                  ],
+                ),
+              ],
             ),
 
-            TextField(
-                controller: _controller2,
-                decoration: InputDecoration(border: OutlineInputBorder(), labelText: "Password"),
-                obscureText:true
+            Text("BY COURSE"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: AssetImage("images/mains.jpg"),
+                      radius: 80,
+                    ),
+                    Text("Main Dishes"),
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: AssetImage("images/salad.jpg"),
+                      radius: 80,
+                    ),
+                    Text("Salad Recipes"),
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: AssetImage("images/sidedishes.jpg"),
+                      radius: 80,
+                    ),
+                    Text("Side Dishes"),
+
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: AssetImage("images/crockpot.jpg"),
+                      radius: 80,
+                    ),
+                    Text("Crockpot"),
+                  ],
+                ),
+              ],
             ),
 
-            ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    password = _controller2.text;
-                    if (password == "QWERTY123"){
-                      imageSource = "images/idea.png";
-                    }
-                    else {
-                      imageSource = "images/stop.png";
-                    }
-                  });
-                },
-                child: Text("Login")),
+            Text("BY DESSERT"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: AssetImage("images/beef.jpg"),
+                      radius: 80,
+                    ),
+                    Text("Ice Cream"),
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: AssetImage("images/beef.jpg"),
+                      radius: 80,
+                    ),
+                    Text("Brownies"),
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: AssetImage("images/beef.jpg"),
+                      radius: 80,
+                    ),
+                    Text("Pies"),
 
-            Semantics(
-              label: "Question marks image",
-              child: Image.asset(imageSource, width: 300, height: 300),
-            )
+
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: AssetImage("images/beef.jpg"),
+                      radius: 80,
+                    ),
+                    Text("Cookies"),
+                  ],
+                ),
+
+              ],
+            ),
+            
           ],
         ),
       ),// This trailing comma makes auto-formatting nicer for build methods.
