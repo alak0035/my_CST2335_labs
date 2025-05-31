@@ -58,24 +58,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late TextEditingController _controller1;
-  late TextEditingController _controller2;
-  String password = "";
-  var imageSource = "images/question-mark.png";
-
-  @override
-  void initState() {
-    super.initState();
-    _controller1 = TextEditingController();
-    _controller2 = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _controller1.dispose();
-    _controller2.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,10 +72,11 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text("BROWSE CATEGORIES"),
+            Text("BROWSE CATEGORIES", style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),),
+
             Text("Not sure exactly which recipe you're looking for? Do a search, or dive into our most popular categories."),
 
-            Text("BY MEAT"),
+            Text("BY MEAT", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -105,9 +88,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         children: <Widget>[
                           CircleAvatar(
                             backgroundImage: AssetImage("images/beef.jpg"),
-                            radius: 80,
+                            radius: 65,
                           ),
-                          Text("BEEF", style: TextStyle(fontSize: 30.0),)
+                          Text("BEEF", style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold)),
+                          Text("BEEF", style: TextStyle(fontSize: 25.0, color: Colors.white)),
                         ]
                     ),
                   ],
@@ -120,12 +104,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         children: <Widget>[
                           CircleAvatar(
                             backgroundImage: AssetImage("images/chicken.jpg"),
-                            radius: 80,
+                            radius: 65,
                           ),
-                          Text("CHICKEN", style: TextStyle(fontSize: 30.0, color: Colors.white),)
+                          Text("CHICKEN", style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold)),
+                          Text("CHICKEN", style: TextStyle(fontSize: 25.0, color: Colors.white)),
                         ]
                     ),
-
                   ],
                 ),
                 Column(
@@ -136,9 +120,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         children: <Widget>[
                           CircleAvatar(
                             backgroundImage: AssetImage("images/pork.jpg"),
-                            radius: 80,
+                            radius: 65,
                           ),
-                          Text("PORK", style: TextStyle(fontSize: 30.0),)
+                          Text("PORK", style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold)),
+                          Text("PORK", style: TextStyle(fontSize: 25.0, color: Colors.white)),
                         ]
                     ),
                   ],
@@ -151,9 +136,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         children: <Widget>[
                           CircleAvatar(
                             backgroundImage: AssetImage("images/seafood.jpg"),
-                            radius: 80,
+                            radius: 65,
                           ),
-                          Text("SEAFOOD", style: TextStyle(fontSize: 30.0),)
+                          Text("SEAFOOD", style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold)),
+                          Text("SEAFOOD", style: TextStyle(fontSize: 25.0, color: Colors.white)),
                         ]
                     ),
                   ],
@@ -161,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
 
-            Text("BY COURSE"),
+            Text("BY COURSE", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -170,9 +156,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     CircleAvatar(
                       backgroundImage: AssetImage("images/mains.jpg"),
-                      radius: 80,
+                      radius: 65,
                     ),
-                    Text("Main Dishes"),
+                    Text("Main Dishes", style: TextStyle(fontWeight: FontWeight.bold),),
                   ],
                 ),
                 Column(
@@ -180,9 +166,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     CircleAvatar(
                       backgroundImage: AssetImage("images/salad.jpg"),
-                      radius: 80,
+                      radius: 65,
                     ),
-                    Text("Salad Recipes"),
+                    Text("Salad Recipes", style: TextStyle(fontWeight: FontWeight.bold),),
                   ],
                 ),
                 Column(
@@ -190,10 +176,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     CircleAvatar(
                       backgroundImage: AssetImage("images/sidedishes.jpg"),
-                      radius: 80,
+                      radius: 65,
                     ),
-                    Text("Side Dishes"),
-
+                    Text("Side Dishes", style: TextStyle(fontWeight: FontWeight.bold),),
                   ],
                 ),
                 Column(
@@ -201,15 +186,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     CircleAvatar(
                       backgroundImage: AssetImage("images/crockpot.jpg"),
-                      radius: 80,
+                      radius: 65,
                     ),
-                    Text("Crockpot"),
+                    Text("Crockpot", style: TextStyle(fontWeight: FontWeight.bold),),
                   ],
                 ),
               ],
             ),
 
-            Text("BY DESSERT"),
+            Text("BY DESSERT", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -217,47 +202,45 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      backgroundImage: AssetImage("images/beef.jpg"),
-                      radius: 80,
+                      backgroundImage: AssetImage("images/icecream.jpg"),
+                      radius: 65,
                     ),
-                    Text("Ice Cream"),
+                    Text("Ice Cream", style: TextStyle(fontWeight: FontWeight.bold),),
                   ],
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      backgroundImage: AssetImage("images/beef.jpg"),
-                      radius: 80,
+                      backgroundImage: AssetImage("images/brownies.jpg"),
+                      radius: 65,
                     ),
-                    Text("Brownies"),
+                    Text("Brownies", style: TextStyle(fontWeight: FontWeight.bold),),
                   ],
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      backgroundImage: AssetImage("images/beef.jpg"),
-                      radius: 80,
+                      backgroundImage: AssetImage("images/pies.jpg"),
+                      radius: 65,
                     ),
-                    Text("Pies"),
-
-
+                    Text("Pies", style: TextStyle(fontWeight: FontWeight.bold),),
                   ],
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      backgroundImage: AssetImage("images/beef.jpg"),
-                      radius: 80,
+                      backgroundImage: AssetImage("images/cookies.jpg"),
+                      radius: 65,
                     ),
-                    Text("Cookies"),
+                    Text("Cookies", style: TextStyle(fontWeight: FontWeight.bold),),
                   ],
                 ),
-
               ],
             ),
+
 
           ],
         ),
