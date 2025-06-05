@@ -107,17 +107,25 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
             ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    password = _controller2.text;
-                    if (password == "QWERTY123"){
-                      imageSource = "images/idea.png";
-                    }
-                    else {
-                      imageSource = "images/stop.png";
-                    }
-                  });
-                },
+                onPressed: () =>  showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: const Text('save login?'),
+                    actions: <Widget>[
+                      ElevatedButton(onPressed: () {
+                          Navigator.pop(context, 'yes');
+                        },
+                        child: Text("yes"),
+                      ),
+
+                      ElevatedButton(onPressed: () {
+                          Navigator.pop(context, 'no');
+                        },
+                        child: Text("no"),
+                      ),
+                    ],
+                  ),
+                ),
                 child: Text("Login")),
 
             Semantics(
