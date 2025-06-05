@@ -1,3 +1,4 @@
+import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -60,8 +61,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late TextEditingController _controller1;
   late TextEditingController _controller2;
-  String password = "";
   var imageSource = "images/question-mark.png";
+
 
   @override
   void initState() {
@@ -86,6 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
@@ -113,12 +115,19 @@ class _MyHomePageState extends State<MyHomePage> {
                     title: const Text('save login?'),
                     actions: <Widget>[
                       ElevatedButton(onPressed: () {
+                          String usrName = _controller1.text;
+                          String pass = _controller2.text;
+                          final prefs = EncryptedSharedPreferences();
+                          prefs.setString("username", usrName);
+                          prefs.setString("password", pass);
                           Navigator.pop(context, 'yes');
                         },
                         child: Text("yes"),
                       ),
 
                       ElevatedButton(onPressed: () {
+                          final prefs = EncryptedSharedPreferences();
+                          prefs.clear();
                           Navigator.pop(context, 'no');
                         },
                         child: Text("no"),
