@@ -109,32 +109,34 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
             ElevatedButton(
-                onPressed: () =>  showDialog<String>(
-                  context: context,
-                  builder: (BuildContext context) => AlertDialog(
-                    title: const Text('save login?'),
-                    actions: <Widget>[
-                      ElevatedButton(onPressed: () {
-                          String usrName = _controller1.text;
-                          String pass = _controller2.text;
-                          final prefs = EncryptedSharedPreferences();
-                          prefs.setString("username", usrName);
-                          prefs.setString("password", pass);
-                          Navigator.pop(context, 'yes');
-                        },
-                        child: Text("yes"),
-                      ),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext ctx) => AlertDialog(
+                        title: Text('Would you like to save your login info?'),
+                        actions: <Widget>[
+                          ElevatedButton(onPressed: () {
+                            String usrName = _controller1.text;
+                            String pass = _controller2.text;
+                            final prefs = EncryptedSharedPreferences();
+                            prefs.setString("username", usrName);
+                            prefs.setString("password", pass);
+                            Navigator.pop(ctx);
+                          },
+                            child: Text("yes"),
+                          ),
 
-                      ElevatedButton(onPressed: () {
-                          final prefs = EncryptedSharedPreferences();
-                          prefs.clear();
-                          Navigator.pop(context, 'no');
-                        },
-                        child: Text("no"),
-                      ),
-                    ],
-                  ),
-                ),
+                          ElevatedButton(onPressed: () {
+                            final prefs = EncryptedSharedPreferences();
+                            prefs.clear();
+                            Navigator.pop(ctx);
+                          },
+                            child: Text("No"),
+                          ),
+                        ],
+                      )
+                  );
+                },
                 child: Text("Login")),
 
             Semantics(
