@@ -116,19 +116,41 @@ class _MyHomePageState extends State<MyHomePage> {
                         title: Text('Would you like to save your login info?'),
                         actions: <Widget>[
                           ElevatedButton(onPressed: () {
-                            String usrName = _controller1.text;
-                            String pass = _controller2.text;
-                            final prefs = EncryptedSharedPreferences();
-                            prefs.setString("username", usrName);
-                            prefs.setString("password", pass);
+                            if (_controller2.text == "QWERTY123"){
+                              String usrName = _controller1.text;
+                              String pass = _controller2.text;
+                              final prefs = EncryptedSharedPreferences();
+                              prefs.setString("username", usrName);
+                              prefs.setString("password", pass);
+                              setState(() {
+                                imageSource = "images/idea.png";
+                              });
+                            }
+                            else {
+                              setState(() {
+                                imageSource = "images/stop.png";
+                              });
+                            }
+
                             Navigator.pop(ctx);
                           },
                             child: Text("yes"),
                           ),
 
                           ElevatedButton(onPressed: () {
-                            final prefs = EncryptedSharedPreferences();
-                            prefs.clear();
+                            if (_controller2.text == "QWERTY123"){
+                              final prefs = EncryptedSharedPreferences();
+                              prefs.clear();
+                              setState(() {
+                                imageSource = "images/idea.png";
+                              });
+                            }
+                            else {
+                              setState(() {
+                                imageSource = "images/stop.png";
+                              });
+
+                            }
                             Navigator.pop(ctx);
                           },
                             child: Text("No"),
