@@ -69,6 +69,25 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _controller1 = TextEditingController();
     _controller2 = TextEditingController();
+
+    Future.delayed(Duration.zero, () async {
+      EncryptedSharedPreferences prefs = EncryptedSharedPreferences();
+      String username = await prefs.getString("username");
+      String passwd = await prefs.getString("password");
+      if (username != "") {
+        if (passwd != "") {
+          setState(() {
+            _controller1.text = username;
+            _controller2.text = passwd;
+          });
+          var snackbar = SnackBar(
+            content: Text("Username: $username Password: $passwd"),
+            duration: Duration(seconds: 7),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackbar);
+        }
+      }
+    });
   }
 
   @override
@@ -117,11 +136,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         actions: <Widget>[
                           ElevatedButton(onPressed: () {
                             if (_controller2.text == "QWERTY123"){
-                              String usrName = _controller1.text;
-                              String pass = _controller2.text;
-                              final prefs = EncryptedSharedPreferences();
-                              prefs.setString("username", usrName);
-                              prefs.setString("password", pass);
                               setState(() {
                                 imageSource = "images/idea.png";
                               });
@@ -130,6 +144,11 @@ class _MyHomePageState extends State<MyHomePage> {
                               setState(() {
                                 imageSource = "images/stop.png";
                               });
+                            String usrName = _controller1.text;
+                            String pass = _controller2.text;
+                            final prefs = EncryptedSharedPreferences();
+                            prefs.setString("username", usrName);
+                            prefs.setString("password", pass);
                             }
 
                             Navigator.pop(ctx);
@@ -139,8 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                           ElevatedButton(onPressed: () {
                             if (_controller2.text == "QWERTY123"){
-                              final prefs = EncryptedSharedPreferences();
-                              prefs.clear();
+
                               setState(() {
                                 imageSource = "images/idea.png";
                               });
@@ -149,7 +167,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               setState(() {
                                 imageSource = "images/stop.png";
                               });
-
+                            final prefs = EncryptedSharedPreferences();
+                            prefs.clear();
                             }
                             Navigator.pop(ctx);
                           },
