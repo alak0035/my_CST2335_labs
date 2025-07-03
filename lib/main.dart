@@ -74,6 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
       EncryptedSharedPreferences prefs = EncryptedSharedPreferences();
       String username = await prefs.getString("username");
       String passwd = await prefs.getString("password");
+      String securedImage = await prefs.getString("image");
       if (username != "") {
         if (passwd != "") {
           setState(() {
@@ -86,6 +87,9 @@ class _MyHomePageState extends State<MyHomePage> {
           );
           ScaffoldMessenger.of(context).showSnackBar(snackbar);
         }
+      }
+      if (securedImage != ""){
+        imageSource = securedImage;
       }
     });
   }
@@ -116,9 +120,9 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextField(
-              controller: _controller1,
-              decoration: InputDecoration(border: OutlineInputBorder(), labelText: "Login"),
-              obscureText:true
+                controller: _controller1,
+                decoration: InputDecoration(border: OutlineInputBorder(), labelText: "Login"),
+                obscureText:true
             ),
 
             TextField(
@@ -130,8 +134,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
                 onPressed: () {
                   showDialog(
-                    context: context,
-                    builder: (BuildContext ctx) => AlertDialog(
+                      context: context,
+                      builder: (BuildContext ctx) => AlertDialog(
                         title: Text('Would you like to save your login info?'),
                         actions: <Widget>[
                           ElevatedButton(onPressed: () {
@@ -144,12 +148,13 @@ class _MyHomePageState extends State<MyHomePage> {
                               setState(() {
                                 imageSource = "images/stop.png";
                               });
+                            }
                             String usrName = _controller1.text;
                             String pass = _controller2.text;
                             final prefs = EncryptedSharedPreferences();
                             prefs.setString("username", usrName);
                             prefs.setString("password", pass);
-                            }
+                            prefs.setString("image", imageSource);
 
                             Navigator.pop(ctx);
                           },
@@ -158,7 +163,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
                           ElevatedButton(onPressed: () {
                             if (_controller2.text == "QWERTY123"){
-
                               setState(() {
                                 imageSource = "images/idea.png";
                               });
@@ -167,9 +171,10 @@ class _MyHomePageState extends State<MyHomePage> {
                               setState(() {
                                 imageSource = "images/stop.png";
                               });
+                            }
                             final prefs = EncryptedSharedPreferences();
                             prefs.clear();
-                            }
+
                             Navigator.pop(ctx);
                           },
                             child: Text("No"),
