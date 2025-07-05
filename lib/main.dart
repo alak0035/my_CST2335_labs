@@ -140,7 +140,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
                 onPressed: () {
                   if (_controller2.text == "QWERTY123"){
-                    DataRepository.uName = _controller1.value.text;
+                    String uName = _controller1.value.text;
+                    final prefs = EncryptedSharedPreferences();
+                    prefs.setString("username", uName);
+                    DataRepository.loadData()
                   }
                   Navigator.pushNamed(  context,"/secondPage" );
                 },

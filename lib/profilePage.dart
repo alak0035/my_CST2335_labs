@@ -22,6 +22,17 @@ class ProfilePageState extends State<ProfilePage> {
     _controllerEmail = TextEditingController();
     _controllerFName = TextEditingController();
     _controllerLName = TextEditingController();
+    Future.delayed(Duration.zero, () async {
+      EncryptedSharedPreferences prefs = EncryptedSharedPreferences();
+      String username = await prefs.getString("username");
+      String passwd = await prefs.getString("password");
+      String securedImage = await prefs.getString("image");
+      if (username != "") {
+        if (passwd != "") {
+          setState(() {
+            _controller1.text = username;
+            _controller2.text = passwd;
+          });
     uName = DataRepository.uName;
 
   }
@@ -96,9 +107,9 @@ class ProfilePageState extends State<ProfilePage> {
                   ElevatedButton(
                       onPressed: () {
                         String eMail = _controllerEmail.value.text;
-                        canLaunch("sms: $eMail").then(
+                        canLaunch("mailto: $eMail").then(
                                 (itCan) {
-                              launch("sms: $eMail");
+                              launch("mailto: $eMail");
                             }
                         );
                       },
