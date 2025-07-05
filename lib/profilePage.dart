@@ -25,14 +25,31 @@ class ProfilePageState extends State<ProfilePage> {
     Future.delayed(Duration.zero, () async {
       EncryptedSharedPreferences prefs = EncryptedSharedPreferences();
       String username = await prefs.getString("username");
-      String passwd = await prefs.getString("password");
-      String securedImage = await prefs.getString("image");
-      if (username != "") {
-        if (passwd != "") {
-          setState(() {
-            _controller1.text = username;
-            _controller2.text = passwd;
-          });
+      String firstName = await prefs.getString("fname");
+      String lastName = await prefs.getString("lname");
+      String phoneNum = await prefs.getString("phone");
+      String mail = await prefs.getString("email");
+      if (firstName != "") {
+        setState(() {
+          _controllerFName.text = firstName;
+        });
+      }
+      if (lastName != "") {
+        setState(() {
+          _controllerLName.text = lastName;
+        });
+      }
+      if (phoneNum != "") {
+        setState(() {
+          _controllerPhone.text = phoneNum;
+        });
+      }
+      if (mail != "") {
+        setState(() {
+          _controllerEmail.text = mail;
+        });
+      }
+    });
     uName = DataRepository.uName;
 
   }
@@ -73,7 +90,15 @@ class ProfilePageState extends State<ProfilePage> {
 
                   ElevatedButton(
                       onPressed: () {
+                        String fname = _controllerFName.value.text;
+                        String lname = _controllerLName.value.text;
                         String phoneNum = _controllerPhone.value.text;
+                        String email = _controllerEmail.value.text;
+                        final prefs = EncryptedSharedPreferences();
+                        prefs.setString("fname", fname);
+                        prefs.setString("lname", lname);
+                        prefs.setString("phone", phoneNum);
+                        prefs.setString("email", email);
                         canLaunch("tel: $phoneNum").then(
                             (itCan) {
                               launch("tel: $phoneNum");
@@ -85,7 +110,15 @@ class ProfilePageState extends State<ProfilePage> {
 
                   ElevatedButton(
                       onPressed: () {
+                        String fname = _controllerFName.value.text;
+                        String lname = _controllerLName.value.text;
                         String phoneNum = _controllerPhone.value.text;
+                        String email = _controllerEmail.value.text;
+                        final prefs = EncryptedSharedPreferences();
+                        prefs.setString("fname", fname);
+                        prefs.setString("lname", lname);
+                        prefs.setString("phone", phoneNum);
+                        prefs.setString("email", email);
                         canLaunch("sms: $phoneNum").then(
                                 (itCan) {
                                 launch("sms: $phoneNum");
@@ -95,6 +128,7 @@ class ProfilePageState extends State<ProfilePage> {
                       child: Icon(Icons.sms)
                   ),
                 ],),
+
                 Row(children: [
                   Flexible(
                     child:
@@ -106,8 +140,16 @@ class ProfilePageState extends State<ProfilePage> {
 
                   ElevatedButton(
                       onPressed: () {
-                        String eMail = _controllerEmail.value.text;
-                        canLaunch("mailto: $eMail").then(
+                        String fname = _controllerFName.value.text;
+                        String lname = _controllerLName.value.text;
+                        String phoneNum = _controllerPhone.value.text;
+                        String email = _controllerEmail.value.text;
+                        final prefs = EncryptedSharedPreferences();
+                        prefs.setString("fname", fname);
+                        prefs.setString("lname", lname);
+                        prefs.setString("phone", phoneNum);
+                        prefs.setString("email", email);
+                        canLaunch("mailto: $email").then(
                                 (itCan) {
                               launch("mailto: $eMail");
                             }

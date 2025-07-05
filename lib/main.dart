@@ -75,27 +75,13 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
 
-
     Future.delayed(Duration.zero, () async {
       EncryptedSharedPreferences prefs = EncryptedSharedPreferences();
       String username = await prefs.getString("username");
-      String passwd = await prefs.getString("password");
-      String securedImage = await prefs.getString("image");
       if (username != "") {
-        if (passwd != "") {
           setState(() {
             _controller1.text = username;
-            _controller2.text = passwd;
           });
-          var snackbar = SnackBar(
-            content: Text("Username: $username Password: $passwd"),
-            duration: Duration(seconds: 7),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackbar);
-        }
-      }
-      if (securedImage != ""){
-        imageSource = securedImage;
       }
     });
   }
@@ -143,7 +129,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     String uName = _controller1.value.text;
                     final prefs = EncryptedSharedPreferences();
                     prefs.setString("username", uName);
-                    DataRepository.loadData()
                   }
                   Navigator.pushNamed(  context,"/secondPage" );
                 },
