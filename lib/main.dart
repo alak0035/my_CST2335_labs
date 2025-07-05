@@ -1,5 +1,7 @@
 import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 import 'package:flutter/material.dart';
+import 'profilePage.dart';
+import 'repository.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,7 +37,12 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      //home: ProfilePage(),
+      initialRoute: '/',
+      routes: {
+        '/' : (context) => MyHomePage(title: 'Title')  ,
+        '/secondPage' : (context) => ProfilePage(),
+      },
     );
   }
 }
@@ -143,6 +150,10 @@ class _MyHomePageState extends State<MyHomePage> {
                               setState(() {
                                 imageSource = "images/idea.png";
                               });
+                              //stuff to save shared prefs to repository
+                              DataRepository.uName = _controller1.text;
+                              DataRepository.passwd = _controller2.text;
+                              Navigator.pushNamed(  context,"/secondPage" );
                             }
                             else {
                               setState(() {
