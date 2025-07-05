@@ -1,5 +1,6 @@
 import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:my_flutter_labs/repository.dart';
 import 'profilePage.dart';
 
 
@@ -127,9 +128,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
                 onPressed: () {
                   if (_controller2.text == "QWERTY123"){
-                    String uName = _controller1.value.text;
-                    final prefs = EncryptedSharedPreferences();
-                    prefs.setString("username", uName);
+                    String userName = _controller1.value.text;
+                    DataRepository.uName = userName;
                   }
                   Navigator.pushNamed(  context,"/secondPage" );
                 },
