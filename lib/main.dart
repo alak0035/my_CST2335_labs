@@ -74,7 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-
+    _controller1 = TextEditingController();
+    _controller2 = TextEditingController();
     Future.delayed(Duration.zero, () async {
       EncryptedSharedPreferences prefs = EncryptedSharedPreferences();
       String username = await prefs.getString("username");
