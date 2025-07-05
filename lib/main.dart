@@ -74,8 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    _controller1 = TextEditingController();
-    _controller2 = TextEditingController();
+
 
     Future.delayed(Duration.zero, () async {
       EncryptedSharedPreferences prefs = EncryptedSharedPreferences();
@@ -140,61 +139,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
             ElevatedButton(
                 onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext ctx) => AlertDialog(
-                        title: Text('Would you like to save your login info?'),
-                        actions: <Widget>[
-                          ElevatedButton(onPressed: () {
-                            if (_controller2.text == "QWERTY123"){
-                              setState(() {
-                                imageSource = "images/idea.png";
-                              });
-                              //stuff to save shared prefs to repository
-                              DataRepository.uName = _controller1.text;
-                              DataRepository.passwd = _controller2.text;
-                              Navigator.pushNamed(  context,"/secondPage" );
-                            }
-                            else {
-                              setState(() {
-                                imageSource = "images/stop.png";
-                              });
-                            }
-                            String usrName = _controller1.text;
-                            String pass = _controller2.text;
-                            final prefs = EncryptedSharedPreferences();
-                            prefs.setString("username", usrName);
-                            prefs.setString("password", pass);
-                            prefs.setString("image", imageSource);
-
-                            Navigator.pop(ctx);
-                          },
-                            child: Text("yes"),
-                          ),
-
-                          ElevatedButton(onPressed: () {
-                            if (_controller2.text == "QWERTY123"){
-                              setState(() {
-                                imageSource = "images/idea.png";
-                              });
-                            }
-                            else {
-                              setState(() {
-                                imageSource = "images/stop.png";
-                              });
-                            }
-                            final prefs = EncryptedSharedPreferences();
-                            prefs.clear();
-
-                            Navigator.pop(ctx);
-                          },
-                            child: Text("No"),
-                          ),
-                        ],
-                      )
-                  );
+                  if (_controller2.text == "QWERTY123"){
+                    DataRepository.uName = _controller1.value.text;
+                  }
+                  Navigator.pushNamed(  context,"/secondPage" );
                 },
-                child: Text("Login")),
+                child: Text("Login"),
+            ),
 
             Semantics(
               label: "Question marks image",
