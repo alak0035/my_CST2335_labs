@@ -22,9 +22,9 @@ class ProfilePageState extends State<ProfilePage> {
     _controllerEmail = TextEditingController();
     _controllerFName = TextEditingController();
     _controllerLName = TextEditingController();
+    DataRepository.saveData();
     Future.delayed(Duration.zero, () async {
       EncryptedSharedPreferences prefs = EncryptedSharedPreferences();
-      String username = await prefs.getString("username");
       String firstName = await prefs.getString("fname");
       String lastName = await prefs.getString("lname");
       String phoneNum = await prefs.getString("phone");
@@ -99,7 +99,7 @@ class ProfilePageState extends State<ProfilePage> {
                         prefs.setString("lname", lname);
                         prefs.setString("phone", phoneNum);
                         prefs.setString("email", email);
-                        DataRepository.saveData();
+                        DataRepository.loadData();
 
                         canLaunch("tel: $phoneNum").then(
                             (itCan) {
@@ -121,7 +121,7 @@ class ProfilePageState extends State<ProfilePage> {
                         prefs.setString("lname", lname);
                         prefs.setString("phone", phoneNum);
                         prefs.setString("email", email);
-                        DataRepository.saveData();
+                        DataRepository.loadData();
 
                         canLaunch("sms: $phoneNum").then(
                                 (itCan) {
@@ -153,7 +153,7 @@ class ProfilePageState extends State<ProfilePage> {
                         prefs.setString("lname", lname);
                         prefs.setString("phone", phoneNum);
                         prefs.setString("email", email);
-                        DataRepository.saveData();
+                        DataRepository.loadData();
 
                         canLaunch("mailto: $email").then(
                                 (itCan) {
