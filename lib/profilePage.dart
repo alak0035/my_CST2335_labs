@@ -99,6 +99,8 @@ class ProfilePageState extends State<ProfilePage> {
                         prefs.setString("lname", lname);
                         prefs.setString("phone", phoneNum);
                         prefs.setString("email", email);
+                        DataRepository.saveData();
+
                         canLaunch("tel: $phoneNum").then(
                             (itCan) {
                               launch("tel: $phoneNum");
@@ -119,6 +121,8 @@ class ProfilePageState extends State<ProfilePage> {
                         prefs.setString("lname", lname);
                         prefs.setString("phone", phoneNum);
                         prefs.setString("email", email);
+                        DataRepository.saveData();
+
                         canLaunch("sms: $phoneNum").then(
                                 (itCan) {
                                 launch("sms: $phoneNum");
@@ -149,9 +153,11 @@ class ProfilePageState extends State<ProfilePage> {
                         prefs.setString("lname", lname);
                         prefs.setString("phone", phoneNum);
                         prefs.setString("email", email);
+                        DataRepository.saveData();
+
                         canLaunch("mailto: $email").then(
                                 (itCan) {
-                              launch("mailto: $eMail");
+                              launch("mailto: $email");
                             }
                         );
                       },
