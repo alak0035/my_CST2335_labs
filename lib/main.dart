@@ -61,7 +61,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late TextEditingController _controller1;
   late TextEditingController _controller2;
-  var imageSource = "images/question-mark.png";
+  List<String> itemNames = [];
+  List<String> itemNums = [];
+  var number = 1;
+
 
 
   @override
@@ -70,24 +73,6 @@ class _MyHomePageState extends State<MyHomePage> {
     _controller1 = TextEditingController();
     _controller2 = TextEditingController();
 
-    Future.delayed(Duration.zero, () async {
-      EncryptedSharedPreferences prefs = EncryptedSharedPreferences();
-      String username = await prefs.getString("username");
-      String passwd = await prefs.getString("password");
-      if (username != "") {
-        if (passwd != "") {
-          setState(() {
-            _controller1.text = username;
-            _controller2.text = passwd;
-          });
-          var snackbar = SnackBar(
-            content: Text("Username: $username Password: $passwd"),
-            duration: Duration(seconds: 7),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackbar);
-        }
-      }
-    });
   }
 
   @override
@@ -112,81 +97,96 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextField(
-              controller: _controller1,
-              decoration: InputDecoration(border: OutlineInputBorder(), labelText: "Login"),
-              obscureText:true
-            ),
+        child: Padding(padding: EdgeInsets.all(20),
+          child: listPage()
 
-            TextField(
-                controller: _controller2,
-                decoration: InputDecoration(border: OutlineInputBorder(), labelText: "Password"),
-                obscureText:true
-            ),
-
-            ElevatedButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext ctx) => AlertDialog(
-                        title: Text('Would you like to save your login info?'),
-                        actions: <Widget>[
-                          ElevatedButton(onPressed: () {
-                            if (_controller2.text == "QWERTY123"){
-                              setState(() {
-                                imageSource = "images/idea.png";
-                              });
-                            }
-                            else {
-                              setState(() {
-                                imageSource = "images/stop.png";
-                              });
-                            String usrName = _controller1.text;
-                            String pass = _controller2.text;
-                            final prefs = EncryptedSharedPreferences();
-                            prefs.setString("username", usrName);
-                            prefs.setString("password", pass);
-                            }
-
-                            Navigator.pop(ctx);
-                          },
-                            child: Text("yes"),
-                          ),
-
-                          ElevatedButton(onPressed: () {
-                            if (_controller2.text == "QWERTY123"){
-
-                              setState(() {
-                                imageSource = "images/idea.png";
-                              });
-                            }
-                            else {
-                              setState(() {
-                                imageSource = "images/stop.png";
-                              });
-                            final prefs = EncryptedSharedPreferences();
-                            prefs.clear();
-                            }
-                            Navigator.pop(ctx);
-                          },
-                            child: Text("No"),
-                          ),
-                        ],
-                      )
-                  );
-                },
-                child: Text("Login")),
-
-            Semantics(
-              label: "Question marks image",
-              child: Image.asset(imageSource, width: 300, height: 300),
-            )
-          ],
         ),
-      ),// This trailing comma makes auto-formatting nicer for build methods.
-    );
+
+
+      ),
+    );// This trailing comma makes auto-formatting nicer for build methods.
   }
+
+  Widget listPage(){
+    return Column(children: [
+      Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children:[
+
+        Expanded(child: TextField(
+          controller: _controller1,
+          decoration: InputDecoration(
+            hintText: "Type the item here",
+            border: OutlineInputBorder()
+          ),
+        )),
+
+        Expanded(child: TextField(
+          controller: _controller2,
+          decoration: InputDecoration(
+             hintText: "Type the quantity here",
+             border: OutlineInputBorder()
+
+          ))
+        ),
+
+        ElevatedButton(
+            onPressed: () {
+              if (itemNames.isEmpty || itemNums.isEmpty){
+                number = 1;
+              } else if (itemNames.isNotEmpty || itemNums.isNotEmpty) {
+                number += 1;
+              }
+              var inputName = _controller1.value.text;
+              var inputNum = _controller2.value.text;
+
+              setState(() {
+                itemNames.add(inputName);
+                itemNums.add(inputNum);
+
+                _controller1.text = "";
+                _controller2.text = "";
+              });
+
+
+
+            },
+            child: Text("Add")
+        ),
+
+      ]),
+
+
+      Expanded(child:
+        ListView.builder(
+            itemCount: number,
+            itemBuilder: (context, rowNumber) {
+                  if (itemNames.isEmpty) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [Text("There are no items in the list")],
+                    );
+
+                  } else if (itemNames.isNotEmpty){
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                            "${rowNumber+1}: ${itemNames[rowNumber]}  quantity: ${itemNums[rowNumber]}")
+                      ],
+
+                    );}
+                  // if (rowNumber < 0){
+                  //   return Text("within");
+                  // } else {
+                  //   return Text("outside");
+                  // }
+            }
+        )
+      )
+    ],);
+  }
+
+
 }
+
