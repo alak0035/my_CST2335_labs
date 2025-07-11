@@ -168,14 +168,23 @@ class _MyHomePageState extends State<MyHomePage> {
                     );
 
                   } else if (itemNames.isNotEmpty){
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                            "${rowNumber+1}: ${itemNames[rowNumber]}  quantity: ${itemNums[rowNumber]}")
-                      ],
-
-                    );}
+                      return GestureDetector(
+                        onLongPress: (){
+                          setState(() {
+                            itemNames.removeAt(rowNumber);
+                            itemNums.removeAt(rowNumber);
+                            number -= 1;
+                          });
+                        },
+                        child:
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("${rowNumber+1}: ${itemNames[rowNumber]}  quantity: ${itemNums[rowNumber]}")
+                            ],
+                          )
+                      );
+                  }
                   // if (rowNumber < 0){
                   //   return Text("within");
                   // } else {
