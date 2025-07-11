@@ -185,16 +185,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                       child: Text("Yes")),
 
                                   ElevatedButton(
-                                      onPressed: onPressed,
+                                      onPressed: (){},
                                       child: Text("No"))
                                 ],
                               )
                             ],
-                          )
-
-
-
-
+                          ));
                         },
                         child:
                           Row(
