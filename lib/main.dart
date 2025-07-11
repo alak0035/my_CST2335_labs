@@ -181,11 +181,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                           itemNums.removeAt(rowNumber);
                                           number -= 1;
                                         });
+                                        Navigator.pop(context);
                                       },
                                       child: Text("Yes")),
 
                                   ElevatedButton(
-                                      onPressed: (){},
+                                      onPressed: (){
+                                        Navigator.pop(context);
+                                      },
                                       child: Text("No"))
                                 ],
                               )
