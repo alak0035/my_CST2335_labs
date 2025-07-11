@@ -169,11 +169,32 @@ class _MyHomePageState extends State<MyHomePage> {
                   } else if (itemNames.isNotEmpty){
                       return GestureDetector(
                         onLongPress: (){
-                          setState(() {
-                            itemNames.removeAt(rowNumber);
-                            itemNums.removeAt(rowNumber);
-                            number -= 1;
-                          });
+                          showDialog(context: context, builder: (BuildContext context) => AlertDialog(
+                            title: Text("Delete entry for ${itemNames[rowNumber]}?"),
+                            actions: <Widget>[
+                              Row(
+                                children: [
+                                  ElevatedButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          itemNames.removeAt(rowNumber);
+                                          itemNums.removeAt(rowNumber);
+                                          number -= 1;
+                                        });
+                                      },
+                                      child: Text("Yes")),
+
+                                  ElevatedButton(
+                                      onPressed: onPressed,
+                                      child: Text("No"))
+                                ],
+                              )
+                            ],
+                          )
+
+
+
+
                         },
                         child:
                           Row(
