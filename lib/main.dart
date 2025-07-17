@@ -61,7 +61,9 @@ class _MyHomePageState extends State<MyHomePage> {
   late TextEditingController _controller1;
   late TextEditingController _controller2;
   List<String> itemNames = [];
+  late TextEditingController _controller3;
   List<String> itemNums = [];
+  List<String> itemPrices = [];
   var number = 1;
 
 
@@ -71,6 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _controller1 = TextEditingController();
     _controller2 = TextEditingController();
+    _controller3 = TextEditingController();
 
   }
 
@@ -78,6 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void dispose() {
     _controller1.dispose();
     _controller2.dispose();
+    _controller3.dispose();
     super.dispose();
   }
 
@@ -129,22 +133,35 @@ class _MyHomePageState extends State<MyHomePage> {
           ))
         ),
 
+        Expanded(child: TextField(
+            controller: _controller3,
+            decoration: InputDecoration(
+                hintText: "Type the price here",
+                border: OutlineInputBorder()
+
+            ))
+        ),
+
         ElevatedButton(
             onPressed: () {
               if (itemNames.isEmpty || itemNums.isEmpty){
                 number = 1;
-              } else if (itemNames.isNotEmpty || itemNums.isNotEmpty) {
+              } else if (itemNames.isNotEmpty || itemNums.isNotEmpty || itemPrices.isNotEmpty) {
                 number += 1;
               }
               var inputName = _controller1.value.text;
               var inputNum = _controller2.value.text;
+              var inputPrice = _controller3.value.text;
 
               setState(() {
                 itemNames.add(inputName);
                 itemNums.add(inputNum);
+                itemPrices.add(inputPrice);
+
 
                 _controller1.text = "";
                 _controller2.text = "";
+                _controller3.text = "";
               });
 
 
@@ -179,6 +196,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         setState(() {
                                           itemNames.removeAt(rowNumber);
                                           itemNums.removeAt(rowNumber);
+                                          itemPrices.removeAt(rowNumber);
                                           number -= 1;
                                         });
                                         Navigator.pop(context);
@@ -199,7 +217,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text("${rowNumber+1}: ${itemNames[rowNumber]}  quantity: ${itemNums[rowNumber]}")
+                              Text("${rowNumber+1}: ${itemNames[rowNumber]}  quantity: ${itemNums[rowNumber]} price:\$${itemPrices[rowNumber]}")
                             ],
                           )
                       );
