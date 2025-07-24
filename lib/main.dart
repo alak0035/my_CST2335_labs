@@ -61,9 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
   late TextEditingController _controller1;
   late TextEditingController _controller2;
   List<String> itemNames = [];
-  late TextEditingController _controller3;
   List<String> itemNums = [];
-  List<String> itemPrices = [];
   var number = 1;
 
 
@@ -73,7 +71,6 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _controller1 = TextEditingController();
     _controller2 = TextEditingController();
-    _controller3 = TextEditingController();
 
   }
 
@@ -81,7 +78,6 @@ class _MyHomePageState extends State<MyHomePage> {
   void dispose() {
     _controller1.dispose();
     _controller2.dispose();
-    _controller3.dispose();
     super.dispose();
   }
 
@@ -101,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Padding(padding: EdgeInsets.all(20),
-          child: listPage()
+            child: listPage()
 
         ),
 
@@ -113,122 +109,108 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget listPage(){
     return Column(children: [
       Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children:[
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children:[
 
-        Expanded(child: TextField(
-          controller: _controller1,
-          decoration: InputDecoration(
-            hintText: "Type the item here",
-            border: OutlineInputBorder()
-          ),
-        )),
+            Expanded(child: TextField(
+              controller: _controller1,
+              decoration: InputDecoration(
+                  hintText: "Type the item here",
+                  border: OutlineInputBorder()
+              ),
+            )),
 
-        Expanded(child: TextField(
-          controller: _controller2,
-          decoration: InputDecoration(
-             hintText: "Type the quantity here",
-             border: OutlineInputBorder()
+            Expanded(child: TextField(
+                controller: _controller2,
+                decoration: InputDecoration(
+                    hintText: "Type the quantity here",
+                    border: OutlineInputBorder()
 
-          ))
-        ),
+                ))
+            ),
 
-        Expanded(child: TextField(
-            controller: _controller3,
-            decoration: InputDecoration(
-                hintText: "Type the price here",
-                border: OutlineInputBorder()
+            ElevatedButton(
+                onPressed: () {
+                  if (itemNames.isEmpty || itemNums.isEmpty){
+                    number = 1;
+                  } else if (itemNames.isNotEmpty || itemNums.isNotEmpty) {
+                    number += 1;
+                  }
+                  var inputName = _controller1.value.text;
+                  var inputNum = _controller2.value.text;
 
-            ))
-        ),
+                  setState(() {
+                    itemNames.add(inputName);
+                    itemNums.add(inputNum);
 
-        ElevatedButton(
-            onPressed: () {
-              if (itemNames.isEmpty || itemNums.isEmpty){
-                number = 1;
-              } else if (itemNames.isNotEmpty || itemNums.isNotEmpty || itemPrices.isNotEmpty) {
-                number += 1;
-              }
-              var inputName = _controller1.value.text;
-              var inputNum = _controller2.value.text;
-              var inputPrice = _controller3.value.text;
-
-              setState(() {
-                itemNames.add(inputName);
-                itemNums.add(inputNum);
-                itemPrices.add(inputPrice);
-
-
-                _controller1.text = "";
-                _controller2.text = "";
-                _controller3.text = "";
-              });
+                    _controller1.text = "";
+                    _controller2.text = "";
+                  });
 
 
 
-            },
-            child: Text("Add")
-        ),
+                },
+                child: Text("Add")
+            ),
 
-      ]),
+          ]),
 
 
       Expanded(child:
-        ListView.builder(
-            itemCount: number,
-            itemBuilder: (context, rowNumber) {
-                  if (itemNames.isEmpty) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Text("There are no items in the list")],
-                    );
+      ListView.builder(
+          itemCount: number,
+          itemBuilder: (context, rowNumber) {
+            if (itemNames.isEmpty) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [Text("There are no items in the list")],
+              );
 
-                  } else if (itemNames.isNotEmpty){
-                      return GestureDetector(
-                        onLongPress: (){
-                          showDialog(context: context, builder: (BuildContext context) => AlertDialog(
-                            title: Text("Delete entry for ${itemNames[rowNumber]}?"),
-                            actions: <Widget>[
-                              Row(
-                                children: [
-                                  ElevatedButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          itemNames.removeAt(rowNumber);
-                                          itemNums.removeAt(rowNumber);
-                                          itemPrices.removeAt(rowNumber);
-                                          number -= 1;
-                                        });
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text("Yes")),
+            } else if (itemNames.isNotEmpty){
+              return GestureDetector(
+                  onLongPress: (){
+                    showDialog(context: context, builder: (BuildContext context) => AlertDialog(
+                      title: Text("Delete entry for ${itemNames[rowNumber]}?"),
+                      actions: <Widget>[
+                        Row(
+                          children: [
+                            ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    itemNames.removeAt(rowNumber);
+                                    itemNums.removeAt(rowNumber);
+                                    number -= 1;
+                                  });
+                                  Navigator.pop(context);
+                                },
+                                child: Text("Yes")),
 
-                                  ElevatedButton(
-                                      onPressed: (){
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text("No"))
-                                ],
-                              )
-                            ],
-                          ));
-                        },
-                        child:
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text("${rowNumber+1}: ${itemNames[rowNumber]}  quantity: ${itemNums[rowNumber]} price:\$${itemPrices[rowNumber]}")
-                            ],
-                          )
-                      );
-                  }
-                  // if (rowNumber < 0){
-                  //   return Text("within");
-                  // } else {
-                  //   return Text("outside");
-                  // }
+                            ElevatedButton(
+                                onPressed: (){
+                                  Navigator.pop(context);
+                                },
+                                child: Text("No"))
+                          ],
+                        )
+                      ],
+                    ));
+                  },
+                  child:
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("${rowNumber+1}: ${itemNames[rowNumber]}  quantity: ${itemNums[rowNumber]}")
+                    ],
+                  )
+              );
             }
-        )
+            // if (rowNumber < 0){
+            //   return Text("within");
+            // } else {
+            //   return Text("outside");
+            // }
+          }
+      )
       )
     ],);
   }
