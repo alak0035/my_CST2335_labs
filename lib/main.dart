@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_labs/ListDatabase.dart';
+import 'package:my_flutter_labs/ShoppingItem.dart';
 
 void main() {
   runApp(const MyApp());
@@ -62,7 +64,9 @@ class _MyHomePageState extends State<MyHomePage> {
   late TextEditingController _controller2;
   List<String> itemNames = [];
   List<String> itemNums = [];
-  var number = 1;
+  List<ShoppingItem> items = [];
+
+  late var daoObj;
 
 
 
@@ -72,6 +76,17 @@ class _MyHomePageState extends State<MyHomePage> {
     _controller1 = TextEditingController();
     _controller2 = TextEditingController();
 
+
+    $FloorListDatabase.databaseBuilder('lab_database.db')
+        .build().then( (database) async {
+          daoObj = database.getDAO;
+          var dbResults = await daoObj.getList();
+          setState(() {
+
+            items = dbResults;
+          });
+
+    } );
   }
 
   @override
@@ -131,17 +146,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
             ElevatedButton(
                 onPressed: () {
-                  if (itemNames.isEmpty || itemNums.isEmpty){
-                    number = 1;
-                  } else if (itemNames.isNotEmpty || itemNums.isNotEmpty) {
-                    number += 1;
-                  }
                   var inputName = _controller1.value.text;
                   var inputNum = _controller2.value.text;
 
                   setState(() {
-                    itemNames.add(inputName);
-                    itemNums.add(inputNum);
+                    var newItem = ShoppingItem(ShoppingItem.ID++, inputName, inputNum);
+
+                    daoObj.addShoppingItem(newItem);
+                    items.add(newItem);
 
                     _controller1.text = "";
                     _controller2.text = "";
@@ -158,28 +170,27 @@ class _MyHomePageState extends State<MyHomePage> {
 
       Expanded(child:
       ListView.builder(
-          itemCount: number,
+          itemCount: items.length,
           itemBuilder: (context, rowNumber) {
-            if (itemNames.isEmpty) {
+            if (items.isEmpty) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [Text("There are no items in the list")],
               );
 
-            } else if (itemNames.isNotEmpty){
+            } else if (items.isNotEmpty){
               return GestureDetector(
                   onLongPress: (){
                     showDialog(context: context, builder: (BuildContext context) => AlertDialog(
-                      title: Text("Delete entry for ${itemNames[rowNumber]}?"),
+                      title: Text("Delete entry for ${items[rowNumber].name}?"),
                       actions: <Widget>[
                         Row(
                           children: [
                             ElevatedButton(
                                 onPressed: () {
                                   setState(() {
-                                    itemNames.removeAt(rowNumber);
-                                    itemNums.removeAt(rowNumber);
-                                    number -= 1;
+                                    daoObj.removeShoppingItem(items[rowNumber]);
+                                    items.removeAt(rowNumber);
                                   });
                                   Navigator.pop(context);
                                 },
@@ -199,7 +210,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("${rowNumber+1}: ${itemNames[rowNumber]}  quantity: ${itemNums[rowNumber]}")
+                      Text("${rowNumber+1}: ${items[rowNumber].name}  quantity: ${items[rowNumber].amnt}")
                     ],
                   )
               );
