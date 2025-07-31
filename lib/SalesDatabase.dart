@@ -1,13 +1,13 @@
 import 'package:floor/floor.dart';
 import 'dart:async';
-import 'SalesRecord.dart';
-import 'SalesRecordDAO.dart';
+import 'SalesRecords.dart';
+import 'SalesRecordsDAO.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
 
 part 'SalesDatabase.g.dart';
 
-@Database(version: 1, entities: [SalesRecord])
+@Database(version: 1, entities: [SalesRecords])
 abstract class SalesDatabase extends FloorDatabase{
-  SalesRecordDAO get getDAO;
+  SalesRecordsDAO get getDAO;
 }

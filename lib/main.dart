@@ -1,9 +1,10 @@
 import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:my_flutter_labs/SalesDatabase.dart';
-import 'package:my_flutter_labs/SalesRecord.dart';
 
+import 'package:my_flutter_labs/SalesDatabase.dart';
+import 'package:my_flutter_labs/SalesRecords.dart';
+import 'package:my_flutter_labs/SalesRecordsDAO.dart';
+import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -63,11 +64,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late TextEditingController _controller0;
   late TextEditingController _controller1;
   late TextEditingController _controller2;
   late TextEditingController _controller3;
   late TextEditingController _controller4;
-  List<SalesRecord> records = [];
+  List<SalesRecords> records = [];
   late var daoObj;
 
 
@@ -75,13 +77,14 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    _controller0 = TextEditingController();
     _controller1 = TextEditingController();
     _controller2 = TextEditingController();
     _controller3 = TextEditingController();
     _controller4 = TextEditingController();
 
 
-    $FloorSalesDatabase.databaseBuilder('proj_database.db')
+    $FloorSalesDatabase.databaseBuilder('final_database.db')
         .build().then( (database) async {
           daoObj = database.getDAO;
           var dbResults = await daoObj.getRecords();
@@ -94,6 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void dispose() {
+    _controller0.dispose();
     _controller1.dispose();
     _controller2.dispose();
     _controller3.dispose();
@@ -131,6 +135,13 @@ class _MyHomePageState extends State<MyHomePage> {
       Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children:[
+            Expanded(child: TextField(
+              controller: _controller0,
+              decoration: InputDecoration(
+                  hintText: "Title",
+                  border: OutlineInputBorder()
+              ),
+            )),
 
             Expanded(child: TextField(
               controller: _controller1,
@@ -159,7 +170,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(child: TextField(
                 controller: _controller4,
                 decoration: InputDecoration(
-                    hintText: "ate ",
+                    hintText: "Date (dd-mm-yyyy)",
                     border: OutlineInputBorder()
 
                 ))
@@ -167,19 +178,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
             ElevatedButton(
                 onPressed: () {
+                  var inputTitle = _controller0.value.text;
                   var inputCustID = int.parse(_controller1.value.text);
                   var inputCarID = int.parse(_controller2.value.text);
                   var inputDealerID = int.parse(_controller3.value.text);
                   var inputDate = _controller4.value.text;
 
                   setState(() {
-                    var newRecord = SalesRecord(SalesRecord.ID++, inputCustID, inputCarID, inputDealerID, inputDate);
+                    var newRecord = SalesRecords(SalesRecords.ID++, inputTitle, inputCustID, inputCarID, inputDealerID, inputDate);
 
                     daoObj.addSalesRecord(newRecord);
                     records.add(newRecord);
 
 
                   });
+                  _controller0.text = "";
                   _controller1.text = "";
                   _controller2.text = "";
                   _controller3.text = "";
@@ -218,6 +231,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     //       children: [
                     //         ElevatedButton(
                     //             onPressed: () {
+                    //                  final prefs = new EncryptedSharedPreferences();
                     //               setState(() {
                     //
                     //               });
@@ -239,7 +253,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("${records[rowNumber].recordID}: ${records[rowNumber].custID}  carID: ${records[rowNumber].carID} dealer: ${records[rowNumber].dealerID} date: ${records[rowNumber].date}")
+                      Text("${rowNumber+1}: ${records[rowNumber].title}")
                     ],
                   )
               );

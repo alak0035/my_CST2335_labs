@@ -2,8 +2,8 @@ import 'package:floor/floor.dart';
 
 
 @entity
-class SalesRecord{
-  SalesRecord(this.recordID, this.custID, this.carID, this.dealerID, this.date){
+class SalesRecords{
+  SalesRecords(this.recordID, this.title, this.custID, this.carID, this.dealerID, this.date){
     if(this.recordID >= ID)
       ID = this.recordID+1;
   }
@@ -13,6 +13,7 @@ class SalesRecord{
   @primaryKey
   final int recordID;
 
+  String title;
   int custID;
   int carID;
   int dealerID;
