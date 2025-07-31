@@ -85,11 +85,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
     $FloorSalesDatabase.databaseBuilder('final_database.db')
         .build().then( (database) async {
-      daoObj = database.getDAO;
-      var dbResults = await daoObj.getRecords();
-      setState(() {
-        records = dbResults;
-      });
+          daoObj = database.getDAO;
+          var dbResults = await daoObj.getRecords();
+          setState(() {
+            records = dbResults;
+          });
 
     } );
   }
@@ -120,14 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Padding(padding: EdgeInsets.all(20),
-            child: Column(
-              children: [
-                Text("page 1"),
-                Text("page 2"),
-                Text("page 3"),
-                Text("page 4"),
-              ],
-            ),
+            child: listPage()
 
         ),
 
