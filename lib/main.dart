@@ -1,6 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
-import 'package:my_flutter_labs/ListDatabase.dart';
-import 'package:my_flutter_labs/ShoppingItem.dart';
+import 'package:my_flutter_labs/SalesDatabase.dart';
+import 'package:my_flutter_labs/SalesRecord.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -62,10 +65,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late TextEditingController _controller1;
   late TextEditingController _controller2;
-  List<String> itemNames = [];
-  List<String> itemNums = [];
-  List<ShoppingItem> items = [];
-
+  late TextEditingController _controller3;
+  late TextEditingController _controller4;
+  List<SalesRecord> records = [];
   late var daoObj;
 
 
@@ -75,15 +77,16 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _controller1 = TextEditingController();
     _controller2 = TextEditingController();
+    _controller3 = TextEditingController();
+    _controller4 = TextEditingController();
 
 
-    $FloorListDatabase.databaseBuilder('lab_database.db')
+    $FloorSalesDatabase.databaseBuilder('proj_database.db')
         .build().then( (database) async {
           daoObj = database.getDAO;
-          var dbResults = await daoObj.getList();
+          var dbResults = await daoObj.getRecords();
           setState(() {
-
-            items = dbResults;
+            records = dbResults;
           });
 
     } );
@@ -93,6 +96,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void dispose() {
     _controller1.dispose();
     _controller2.dispose();
+    _controller3.dispose();
+    _controller4.dispose();
     super.dispose();
   }
 
@@ -130,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(child: TextField(
               controller: _controller1,
               decoration: InputDecoration(
-                  hintText: "Type the item here",
+                  hintText: "Customer ID",
                   border: OutlineInputBorder()
               ),
             )),
@@ -138,7 +143,23 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(child: TextField(
                 controller: _controller2,
                 decoration: InputDecoration(
-                    hintText: "Type the quantity here",
+                    hintText: "Car ID",
+                    border: OutlineInputBorder()
+
+                ))
+            ),
+            Expanded(child: TextField(
+                controller: _controller3,
+                decoration: InputDecoration(
+                    hintText: "Dealer ID",
+                    border: OutlineInputBorder()
+
+                ))
+            ),
+            Expanded(child: TextField(
+                controller: _controller4,
+                decoration: InputDecoration(
+                    hintText: "ate ",
                     border: OutlineInputBorder()
 
                 ))
@@ -146,19 +167,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
             ElevatedButton(
                 onPressed: () {
-                  var inputName = _controller1.value.text;
-                  var inputNum = _controller2.value.text;
+                  var inputCustID = int.parse(_controller1.value.text);
+                  var inputCarID = int.parse(_controller2.value.text);
+                  var inputDealerID = int.parse(_controller3.value.text);
+                  var inputDate = _controller4.value.text;
 
                   setState(() {
-                    var newItem = ShoppingItem(ShoppingItem.ID++, inputName, inputNum);
+                    var newRecord = SalesRecord(SalesRecord.ID++, inputCustID, inputCarID, inputDealerID, inputDate);
 
-                    daoObj.addShoppingItem(newItem);
-                    items.add(newItem);
+                    daoObj.addSalesRecord(newRecord);
+                    records.add(newRecord);
 
-                    _controller1.text = "";
-                    _controller2.text = "";
+
                   });
-
+                  _controller1.text = "";
+                  _controller2.text = "";
+                  _controller3.text = "";
+                  _controller4.text = "";
 
 
                 },
@@ -170,56 +195,55 @@ class _MyHomePageState extends State<MyHomePage> {
 
       Expanded(child:
       ListView.builder(
-          itemCount: items.length,
+          itemCount: records.length,
           itemBuilder: (context, rowNumber) {
-            if (items.isEmpty) {
+            if (records.isEmpty) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [Text("There are no items in the list")],
               );
 
-            } else if (items.isNotEmpty){
+            } else if (records.isNotEmpty){
               return GestureDetector(
                   onLongPress: (){
-                    showDialog(context: context, builder: (BuildContext context) => AlertDialog(
-                      title: Text("Delete entry for ${items[rowNumber].name}?"),
-                      actions: <Widget>[
-                        Row(
-                          children: [
-                            ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    daoObj.removeShoppingItem(items[rowNumber]);
-                                    items.removeAt(rowNumber);
-                                  });
-                                  Navigator.pop(context);
-                                },
-                                child: Text("Yes")),
+                    setState(() {
+                      daoObj.removeSalesRecord(records[rowNumber]);
+                      records.removeAt(rowNumber);
+                    });
 
-                            ElevatedButton(
-                                onPressed: (){
-                                  Navigator.pop(context);
-                                },
-                                child: Text("No"))
-                          ],
-                        )
-                      ],
-                    ));
+                    // showDialog(context: context, builder: (BuildContext context) => AlertDialog(
+                    //   title: Text("Would you like to autofill fields with those input?"),
+                    //   actions: <Widget>[
+                    //     Row(
+                    //       children: [
+                    //         ElevatedButton(
+                    //             onPressed: () {
+                    //               setState(() {
+                    //
+                    //               });
+                    //               Navigator.pop(context);
+                    //             },
+                    //             child: Text("Yes")),
+                    //
+                    //         ElevatedButton(
+                    //             onPressed: (){
+                    //               Navigator.pop(context);
+                    //             },
+                    //             child: Text("No"))
+                    //       ],
+                    //     )
+                    //   ],
+                    // ));
                   },
                   child:
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("${rowNumber+1}: ${items[rowNumber].name}  quantity: ${items[rowNumber].amnt}")
+                      Text("${records[rowNumber].recordID}: ${records[rowNumber].custID}  carID: ${records[rowNumber].carID} dealer: ${records[rowNumber].dealerID} date: ${records[rowNumber].date}")
                     ],
                   )
               );
             }
-            // if (rowNumber < 0){
-            //   return Text("within");
-            // } else {
-            //   return Text("outside");
-            // }
           }
       )
       )
