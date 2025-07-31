@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:my_flutter_labs/SalesDatabase.dart';
 import 'package:my_flutter_labs/SalesRecords.dart';
-import 'package:my_flutter_labs/SalesRecordsDAO.dart';
 import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 
 void main() {
