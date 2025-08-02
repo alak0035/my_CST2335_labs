@@ -82,12 +82,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
     $FloorListDatabase.databaseBuilder('lab_database.db')
         .build().then( (database) async {
-          daoObj = database.getDAO;
-          var dbResults = await daoObj.getList();
-          setState(() {
+      daoObj = database.getDAO;
+      var dbResults = await daoObj.getList();
+      setState(() {
 
-            items = dbResults;
-          });
+        items = dbResults;
+      });
 
     } );
   }
@@ -225,36 +225,40 @@ class _MyHomePageState extends State<MyHomePage> {
                   )
               );
             }
-            ]
+            // if (rowNumber < 0){
+            //   return Text("within");
+            // } else {
+            //   return Text("outside");
+            // }
           }
       )
       )
     ],);
   }
   Widget detailsPage(){
-      if(selectedItem != null){
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children:[
-            Text("Item name is ${selectedItem?.name}"),
-            Text("Item Amnt is ${selectedItem?.amnt}"),
-            ElevatedButton(
-                onPressed: (){
-                  setState(() {
-                    selectedItem = null;
-                  });
+    if(selectedItem != null){
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children:[
+          Text("Item name is ${selectedItem?.name}"),
+          Text("Item Amnt is ${selectedItem?.amnt}"),
+          ElevatedButton(
+              onPressed: (){
+                setState(() {
+                  selectedItem = null;
+                });
 
-                },
-                child: Text("OK"))
-          ],);
-      } else {
-        return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Nothing Selected"),
-            ]
-        );
-      }
+              },
+              child: Text("OK"))
+        ],);
+    } else {
+      return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Nothing Selected"),
+          ]
+      );
+    }
   }
 
 
@@ -266,24 +270,23 @@ class _MyHomePageState extends State<MyHomePage> {
     if (width>height && width > 720.00){
       return Row(children: [
         Expanded(
-          flex: 2,
-          child: listPage()
+            flex: 2,
+            child: listPage()
         ),
 
         Expanded(
-          flex: 3,
-          child: detailsPage())
+            flex: 3,
+            child: detailsPage())
         ,
 
-        ],);
+      ],);
     } else {
-        if(selectedItem==null){
-          return listPage();
-        } else {
-          return detailsPage();
-        }
+      if(selectedItem==null){
+        return listPage();
+      } else {
+        return detailsPage();
+      }
     }
   }
-
 }
 
