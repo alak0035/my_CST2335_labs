@@ -13,4 +13,7 @@ abstract class ShoppingItemDAO{
   @delete
   Future<void> removeShoppingItem(ShoppingItem item);
 
+  @update
+  Future<void> updateShoppingItem(ShoppingItem item);
+
 }

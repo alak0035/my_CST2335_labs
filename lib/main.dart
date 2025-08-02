@@ -1,3 +1,4 @@
+import 'package:floor/floor.dart';
 import 'package:flutter/material.dart';
 import 'package:my_flutter_labs/ListDatabase.dart';
 import 'package:my_flutter_labs/ShoppingItem.dart';
@@ -63,8 +64,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late TextEditingController _controller1;
   late TextEditingController _controller2;
-  List<String> itemNames = [];
-  List<String> itemNums = [];
+  late TextEditingController _displayController1;
+  late TextEditingController _displayController2;
   List<ShoppingItem> items = [];
   ShoppingItem? selectedItem = null;
 
@@ -78,6 +79,8 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _controller1 = TextEditingController();
     _controller2 = TextEditingController();
+    _displayController1 = TextEditingController();
+    _displayController2 = TextEditingController();
 
 
     $FloorListDatabase.databaseBuilder('lab_database.db')
@@ -96,6 +99,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void dispose() {
     _controller1.dispose();
     _controller2.dispose();
+    _displayController1.dispose();
+    _displayController2.dispose();
     super.dispose();
   }
 
@@ -240,16 +245,70 @@ class _MyHomePageState extends State<MyHomePage> {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children:[
-            Text("Item name is ${selectedItem?.name}"),
-            Text("Item Amnt is ${selectedItem?.amnt}"),
-            ElevatedButton(
-                onPressed: (){
-                  setState(() {
-                    selectedItem = null;
-                  });
+              Text("Item Id for ${selectedItem?.name} is ${selectedItem?.id}"),
+              Text("Item name is ${selectedItem?.name}"),
+              Text("Item Amnt is ${selectedItem?.amnt}"),
 
-                },
-                child: Text("OK"))
+              TextField(
+                controller: _displayController1,
+                decoration: InputDecoration(
+                    hintText: "Type a new name for selected item",
+                    border: OutlineInputBorder()
+                ),
+              ),
+              TextField(
+                controller: _displayController2,
+                decoration: InputDecoration(
+                    hintText: "Type a new amount for selected item",
+                    border: OutlineInputBorder()
+                ),
+              ),
+
+
+
+              //button to delete an record from list
+              ElevatedButton(
+                  onPressed: (){
+                    setState(() {
+                      daoObj.removeShoppingItem(selectedItem);
+                      items.remove(selectedItem);
+                      selectedItem = null;
+                      _displayController1.text = "";
+                      _displayController2.text = "";
+                    });
+
+                  },
+                  child: Text("Delete Entry")
+              ),
+
+              //button to update a record from list
+              ElevatedButton(
+                  onPressed: (){
+                    setState(() {
+                      String newName = _displayController1.value.text;
+                      String newAmnt = _displayController2.value.text;
+
+                      selectedItem?.name =  newName;
+                      selectedItem?.amnt = newAmnt;
+                      daoObj.updateShoppingItem(selectedItem);
+
+                      selectedItem = null;
+                      _displayController1.text = "";
+                      _displayController2.text = "";
+                    });
+
+                  },
+                  child: Text("Update Entry")
+              ),
+              ElevatedButton(
+                  onPressed: (){
+                    setState(() {
+                      selectedItem = null;
+                    });
+
+                  },
+                  child: Text("Close")
+              ),
           ],);
       } else {
         return Column(
