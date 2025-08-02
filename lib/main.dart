@@ -225,11 +225,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   )
               );
             }
-            // if (rowNumber < 0){
-            //   return Text("within");
-            // } else {
-            //   return Text("outside");
-            // }
+            ]
           }
       )
       )
