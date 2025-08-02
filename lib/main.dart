@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -65,6 +66,8 @@ class _MyHomePageState extends State<MyHomePage> {
   List<String> itemNames = [];
   List<String> itemNums = [];
   List<ShoppingItem> items = [];
+  ShoppingItem? selectedItem = null;
+
 
   late var daoObj;
 
@@ -112,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Padding(padding: EdgeInsets.all(20),
-            child: listPage()
+            child: responsiveLayout()
 
         ),
 
@@ -180,6 +183,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
             } else if (items.isNotEmpty){
               return GestureDetector(
+                  onTap: (){
+                    setState(() {
+                      selectedItem = items[rowNumber];
+                    });
+                  },
+
+
                   onLongPress: (){
                     showDialog(context: context, builder: (BuildContext context) => AlertDialog(
                       title: Text("Delete entry for ${items[rowNumber].name}?"),
@@ -225,7 +235,59 @@ class _MyHomePageState extends State<MyHomePage> {
       )
     ],);
   }
+  Widget detailsPage(){
+      if(selectedItem != null){
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children:[
+            Text("Item name is ${selectedItem?.name}"),
+            Text("Item Amnt is ${selectedItem?.amnt}"),
+            ElevatedButton(
+                onPressed: (){
+                  setState(() {
+                    selectedItem = null;
+                  });
 
+                },
+                child: Text("OK"))
+          ],);
+      } else {
+        return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Nothing Selected"),
+            ]
+        );
+      }
+  }
+
+
+  Widget responsiveLayout(){
+    var size = MediaQuery.of(context).size;
+    var height = size.height;
+    var width = size.width;
+
+    if (width>height && width > 720.00){
+      return Row(children: [
+        Expanded(
+          flex: 2,
+          child: listPage()
+        ),
+
+        Expanded(
+          flex: 3,
+          child: detailsPage())
+        ,
+
+        ],);
+    } else {
+        if(selectedItem==null){
+          return listPage();
+        } else {
+          return detailsPage();
+        }
+    }
+  }
 
 }
 
